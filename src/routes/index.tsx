@@ -215,15 +215,28 @@ function Positioning() {
         title="Engineering first, interface second, decoration never."
         description="Four things show up in everything I ship — whether it's a marketplace ledger, a detection pipeline or a marketing site."
       />
-      <div className="mt-14 grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2">
+      <div className="mt-14 grid gap-6 sm:grid-cols-2">
         {pillars.map((pillar, i) => (
-          <Reveal key={pillar.title} delay={i * 0.06}>
-            <div className="h-full bg-background p-8">
-              <p className="font-mono text-xs text-accent">0{i + 1}</p>
-              <h3 className="mt-4 text-lg font-semibold text-foreground">{pillar.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{pillar.body}</p>
-            </div>
-          </Reveal>
+          <motion.div
+            key={pillar.title}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ type: "spring", stiffness: 100, damping: 15, delay: i * 0.1 }}
+            whileHover={{ 
+              y: -8, 
+              scale: 1.02,
+              borderColor: "rgba(6, 182, 212, 0.35)", 
+              boxShadow: "0 20px 30px -10px rgba(0, 0, 0, 0.45)" 
+            }}
+            className="relative h-full rounded-2xl border border-white/5 bg-slate-950/45 backdrop-blur-md p-8 transition-colors duration-500 hover:bg-slate-950/70 cursor-pointer"
+          >
+            <div className="absolute top-5 right-5 size-1.5 rounded-full bg-cyan-500/60 animate-pulse" />
+            
+            <p className="font-mono text-xs font-semibold text-cyan-400 tracking-wider">0{i + 1}</p>
+            <h3 className="mt-4 text-xl font-semibold text-foreground tracking-tight">{pillar.title}</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{pillar.body}</p>
+          </motion.div>
         ))}
       </div>
       <Reveal delay={0.1} className="mt-10">
