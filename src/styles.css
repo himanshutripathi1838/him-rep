@@ -177,3 +177,34 @@
     box-shadow: var(--shadow-elevated);
   }
 }
+
+@keyframes word-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.8);
+    filter: blur(10px);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(10px) scale(0.95);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.word-animate {
+  display: inline-block;
+  opacity: 0;
+  margin: 0 0.125em 0 0;
+  animation: word-appear 0.8s ease-out forwards;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.word-animate:hover {
+  color: var(--color-accent) !important;
+  transform: translateY(-2px);
+}

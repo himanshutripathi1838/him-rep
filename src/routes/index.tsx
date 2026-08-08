@@ -131,11 +131,17 @@ function Hero() {
             </span>
           </Reveal>
 
-          <Reveal delay={0.06}>
-            <h1 className="mx-auto mt-7 max-w-3xl text-4xl font-semibold leading-[1.05] text-gradient sm:text-5xl md:text-6xl lg:text-7xl">
-              {site.name}
-            </h1>
-          </Reveal>
+          <h1 className="mx-auto mt-7 max-w-3xl text-4xl font-semibold leading-[1.05] text-gradient sm:text-5xl md:text-6xl lg:text-7xl">
+            {site.name.split(" ").map((word, i) => (
+              <span
+                key={i}
+                className="word-animate"
+                style={{ animationDelay: `${200 + i * 150}ms` }}
+              >
+                {word}
+              </span>
+            ))}
+          </h1>
 
           <Reveal delay={0.12}>
             <div className="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 font-mono text-sm text-accent">
@@ -148,11 +154,17 @@ function Hero() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.18}>
-            <p className="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-              {site.intro}
-            </p>
-          </Reveal>
+          <p className="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+            {site.intro.split(/\s+/).map((word, i) => (
+              <span
+                key={i}
+                className="word-animate"
+                style={{ animationDelay: `${500 + i * 40}ms` }}
+              >
+                {word}
+              </span>
+            ))}
+          </p>
 
           <Reveal delay={0.24}>
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
