@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Section, SectionHeading } from "@/components/site/Section";
 import { Reveal } from "@/components/motion/Reveal";
+import { CareerRoadmap } from "@/components/site/CareerRoadmap";
 import { achievements, education, experience, site, timeline } from "@/data/site";
 
 export const Route = createFileRoute("/about")({
@@ -54,27 +55,9 @@ function About() {
           title="From fundamentals to shipped systems."
           description="Each step here changed how I build, not just what I know."
         />
-        <ol className="relative mt-14 border-l border-border pl-8 md:pl-12">
-          {timeline.map((entry, i) => (
-            <Reveal key={entry.year} delay={i * 0.06}>
-              <li className="relative pb-12 last:pb-0">
-                <span className="absolute -left-[41px] top-1.5 flex size-3 items-center justify-center md:-left-[57px]">
-                  <span className="size-3 rounded-full border border-primary bg-background" />
-                  <span className="absolute size-1.5 rounded-full bg-accent" />
-                </span>
-                <p className="font-mono text-xs uppercase tracking-[0.18em] text-accent">
-                  {entry.year}
-                </p>
-                <h3 className="mt-3 text-lg font-semibold text-foreground md:text-xl">
-                  {entry.title}
-                </h3>
-                <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                  {entry.body}
-                </p>
-              </li>
-            </Reveal>
-          ))}
-        </ol>
+        <div className="mt-14">
+          <CareerRoadmap />
+        </div>
       </Section>
 
       <Section>
