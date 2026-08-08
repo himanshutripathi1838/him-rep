@@ -1,126 +1,140 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { GraduationCap, BookOpen, Code, Rocket, Cpu } from "lucide-react";
 import { timeline } from "@/data/site";
 
-// Map steps to specific icons
-const icons = [BookOpen, GraduationCap, Code, Rocket, Cpu];
+const phaseLabels = [
+  "PHASE 01 // COMPLETED",
+  "PHASE 02 // COMPLETED",
+  "PHASE 03 // ACADEMIC",
+  "PHASE 04 // SHIPPED",
+  "PHASE 05 // SYSTEM ACTIVE",
+];
 
 export function CareerRoadmap() {
+  const [hoveredStep, setHoveredStep] = useState<number | null>(null);
+  const activeStep = 4; // Default active is the latest (index 4)
+  const currentActive = hoveredStep !== null ? hoveredStep : activeStep;
+
+  // Path lengths at each step (ratios from 0 to 1)
+  const stepRatios = [0.12, 0.32, 0.52, 0.72, 0.92];
+  const activeRatio = stepRatios[currentActive];
+
   return (
     <div className="relative w-full py-10">
       {/* 1. Desktop Layout (>= md) */}
-      <div className="hidden md:block relative w-full h-[1050px] max-w-4xl mx-auto overflow-hidden">
-        {/* SVG Winding Road Background */}
+      <div className="hidden md:block relative w-full h-[1150px] max-w-4xl mx-auto overflow-hidden">
+        {/* SVG Centered Wavy Path */}
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none"
-          viewBox="0 0 800 1000"
+          viewBox="0 0 800 1100"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <defs>
-            <linearGradient id="roadGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#10B981" /> {/* green-500 */}
-              <stop offset="25%" stopColor="#FBBF24" /> {/* yellow-400 */}
-              <stop offset="50%" stopColor="#F97316" /> {/* orange-500 */}
-              <stop offset="75%" stopColor="#EF4444" /> {/* red-500 */}
-              <stop offset="100%" stopColor="#EC4899" /> {/* pink-500 */}
-            </linearGradient>
-          </defs>
-
-          {/* Thick Gradient Road Path */}
-          <motion.path
-            d="M 120 100 L 496 100 C 680 100, 680 300, 304 300 C 120 300, 120 500, 496 500 C 680 500, 680 700, 304 700 C 120 700, 120 900, 496 900 L 680 900"
-            stroke="url(#roadGradient)"
-            strokeWidth="38"
+          {/* Base Dark Line (Inactive Path) */}
+          <path
+            d="M 400 0 C 406 100, 394 230, 400 330 C 406 430, 394 550, 400 550 C 406 550, 394 670, 400 770 C 406 870, 394 990, 400 990 L 400 1100"
+            stroke="rgba(255, 255, 255, 0.08)"
+            strokeWidth="3"
+            fill="none"
             strokeLinecap="round"
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1.8, ease: "easeInOut" }}
           />
 
-          {/* Dashed White Center Line */}
+          {/* Active Glowing Cyan Line (Grows based on active step) */}
           <motion.path
-            d="M 120 100 L 496 100 C 680 100, 680 300, 304 300 C 120 300, 120 500, 496 500 C 680 500, 680 700, 304 700 C 120 700, 120 900, 496 900 L 680 900"
-            stroke="white"
-            strokeWidth="2"
-            strokeDasharray="8 8"
+            d="M 400 0 C 406 100, 394 230, 400 330 C 406 430, 394 550, 400 550 C 406 550, 394 670, 400 770 C 406 870, 394 990, 400 990 L 400 1100"
+            stroke="#06b6d4" // cyan-500
+            strokeWidth="3.5"
+            fill="none"
             strokeLinecap="round"
-            opacity="0.5"
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1.8, ease: "easeInOut", delay: 0.1 }}
+            animate={{ pathLength: activeRatio }}
+            transition={{ type: "spring", stiffness: 70, damping: 16 }}
+            className="drop-shadow-[0_0_10px_rgba(6,182,212,0.85)]"
           />
         </svg>
 
-        {/* HTML Milestone Cards & Circles */}
+        {/* Milestone Circles and Cards */}
         {timeline.map((step, i) => {
-          const Icon = icons[i] || Code;
-          const isOdd = i % 2 === 0; // index 0 (2020), 2 (2022-2026), 4 (2026-Present) are on the right
-          const leftPercent = isOdd ? "62%" : "38%";
-          const textLeftPercent = isOdd ? "71%" : "auto";
-          const textRightPercent = isOdd ? "auto" : "71%";
+          const isLeft = i % 2 === 0; // alternating: index 0 (2020), 2 (2022-26), 4 (Present) on left
           const topPercent = `${10 + i * 20}%`; // 10%, 30%, 50%, 70%, 90%
+          const isSelected = i <= currentActive;
+          const isHovered = hoveredStep === i;
 
           return (
             <div key={step.year} className="absolute inset-0 pointer-events-none">
-              {/* Step Circle with Icon */}
+              {/* Step Circle with Number */}
               <motion.div
-                className="absolute flex items-center justify-center size-14 rounded-full bg-background border-4 border-muted shadow-lg pointer-events-auto cursor-pointer z-10"
+                className={`absolute flex items-center justify-center size-12 rounded-full bg-background border-2 transition-all duration-300 pointer-events-auto cursor-pointer z-20 ${
+                  isSelected
+                    ? "border-cyan-400 text-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.45)]"
+                    : "border-slate-800 text-slate-500"
+                }`}
                 style={{
-                  left: leftPercent,
+                  left: "50%",
                   top: topPercent,
                   transform: "translate(-50%, -50%)",
                 }}
                 initial={{ opacity: 0, scale: 0 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                whileHover={{ 
-                  scale: 1.15, 
-                  borderColor: "rgba(56, 189, 248, 0.6)",
-                  boxShadow: "0 10px 15px -3px rgba(56, 189, 248, 0.25)"
-                }}
-                transition={{ type: "spring", stiffness: 250, damping: 15, delay: i * 0.2 }}
+                onMouseEnter={() => setHoveredStep(i)}
+                onMouseLeave={() => setHoveredStep(null)}
+                whileHover={{ scale: 1.15 }}
+                transition={{ type: "spring", stiffness: 200, damping: 15, delay: i * 0.15 }}
               >
-                <motion.div
-                  whileHover={{ rotate: 10 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <Icon className="size-6 text-foreground" />
-                </motion.div>
+                <span className="font-mono font-bold text-sm">{i + 1}</span>
               </motion.div>
 
-              {/* Step Content Card with back-and-forth hover effect */}
+              {/* Step Card (hovering triggers horizontal back-and-forth movement) */}
               <motion.div
-                className="absolute w-[270px] pointer-events-auto p-5 rounded-xl border border-border/80 bg-background/80 backdrop-blur-sm shadow-md cursor-pointer"
+                className={`absolute w-[290px] pointer-events-auto p-5 rounded-2xl border transition-colors duration-300 bg-slate-950/75 border-slate-900/90 backdrop-blur-md shadow-lg cursor-pointer ${
+                  isHovered ? "border-cyan-500/40" : "border-slate-900/80"
+                }`}
                 style={{
-                  left: textLeftPercent,
-                  right: textRightPercent,
+                  left: isLeft ? "auto" : "56%",
+                  right: isLeft ? "56%" : "auto",
                   top: topPercent,
+                  textAlign: isLeft ? "right" : "left",
                 }}
-                initial={{ opacity: 0, x: isOdd ? 40 : -40, y: "-50%", scale: 0.95 }}
+                initial={{ opacity: 0, x: isLeft ? -40 : 40, y: "-50%", scale: 0.96 }}
                 whileInView={{ opacity: 1, x: 0, y: "-50%", scale: 1 }}
-                whileHover={{ 
-                  x: isOdd ? 10 : -10, 
-                  y: "-50%", 
-                  scale: 1.04, 
-                  borderColor: "rgba(56, 189, 248, 0.4)",
-                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.15)"
+                onMouseEnter={() => setHoveredStep(i)}
+                onMouseLeave={() => setHoveredStep(null)}
+                whileHover={{
+                  x: isLeft ? -10 : 10,
+                  y: "-50%",
+                  scale: 1.03,
+                  boxShadow: "0 20px 30px -10px rgba(0, 0, 0, 0.4)",
                 }}
                 viewport={{ once: true }}
-                transition={{ type: "spring", stiffness: 250, damping: 18, delay: i * 0.2 + 0.1 }}
+                transition={{ type: "spring", stiffness: 220, damping: 18, delay: i * 0.15 + 0.1 }}
               >
-                <span className="font-mono text-xs font-semibold text-accent uppercase tracking-[0.12em]">
-                  {step.year}
-                </span>
-                <h4 className="mt-1.5 text-base font-semibold text-foreground tracking-tight">
-                  {step.title}
-                </h4>
-                <p className="mt-2 text-[13px] text-muted-foreground leading-relaxed">
-                  {step.body}
-                </p>
+                <div
+                  className={`flex flex-col ${
+                    isLeft ? "items-end" : "items-start"
+                  }`}
+                >
+                  <span className="font-mono text-[10px] font-medium tracking-[0.14em] text-cyan-400/80 uppercase">
+                    {phaseLabels[i]}
+                  </span>
+                  <div className="mt-1.5 flex items-baseline gap-2">
+                    {isLeft && (
+                      <span className="font-mono text-[11px] text-muted-foreground">
+                        ({step.year})
+                      </span>
+                    )}
+                    <h4 className="text-base font-semibold text-foreground tracking-tight">
+                      {step.title}
+                    </h4>
+                    {!isLeft && (
+                      <span className="font-mono text-[11px] text-muted-foreground">
+                        ({step.year})
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-2 text-[13px] text-muted-foreground leading-relaxed">
+                    {step.body}
+                  </p>
+                </div>
               </motion.div>
             </div>
           );
@@ -128,9 +142,11 @@ export function CareerRoadmap() {
       </div>
 
       {/* 2. Mobile Layout (< md) */}
-      <div className="md:hidden relative pl-10 border-l-4 border-gradient-to-b from-emerald-500 via-amber-400 to-pink-500 space-y-12 py-4">
+      <div className="md:hidden relative pl-8 border-l-2 border-slate-800 space-y-12 py-4">
+        {/* Mobile Active Path overlay */}
+        <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-cyan-400 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]" style={{ height: "92%" }} />
+
         {timeline.map((step, i) => {
-          const Icon = icons[i] || Code;
           return (
             <motion.div
               key={step.year}
@@ -140,18 +156,18 @@ export function CareerRoadmap() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
             >
-              {/* Step Icon Node */}
-              <div className="absolute -left-[62px] top-0 flex size-10 items-center justify-center rounded-full bg-background border-2 border-muted shadow-md">
-                <Icon className="size-4 text-foreground" />
+              {/* Step Node Circle */}
+              <div className="absolute -left-[45px] top-0 flex size-8 items-center justify-center rounded-full bg-background border-2 border-cyan-400 text-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.35)] font-mono font-bold text-xs">
+                {i + 1}
               </div>
 
               {/* Content */}
               <div>
-                <span className="font-mono text-xs font-semibold text-accent uppercase tracking-wider">
-                  {step.year}
+                <span className="font-mono text-[10px] font-medium tracking-wider text-cyan-400/80 uppercase">
+                  {phaseLabels[i]}
                 </span>
-                <h4 className="mt-1 text-base sm:text-lg font-semibold text-foreground">
-                  {step.title}
+                <h4 className="mt-1 text-base font-semibold text-foreground">
+                  {step.title} <span className="font-mono text-xs text-muted-foreground">({step.year})</span>
                 </h4>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
                   {step.body}
