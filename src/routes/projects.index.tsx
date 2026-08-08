@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { Section, SectionHeading } from "@/components/site/Section";
 import { Reveal } from "@/components/motion/Reveal";
+import { TiltCard } from "@/components/motion/TiltCard";
 import { projects } from "@/data/projects";
 
 export const Route = createFileRoute("/projects/")({
@@ -43,10 +44,10 @@ function ProjectsIndex() {
         <div className="grid gap-8 lg:grid-cols-2">
           {projects.map((project, i) => (
             <Reveal key={project.slug} delay={(i % 2) * 0.06}>
-              <Link
+              <TiltCard
                 to="/projects/$slug"
                 params={{ slug: project.slug }}
-                className="surface-card lift group flex h-full flex-col overflow-hidden"
+                innerClassName="flex flex-col h-full"
               >
                 <div className="overflow-hidden border-b border-border">
                   <img
@@ -81,7 +82,7 @@ function ProjectsIndex() {
                     <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </span>
                 </div>
-              </Link>
+              </TiltCard>
             </Reveal>
           ))}
         </div>

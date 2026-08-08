@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Download, Mail } from "lucide-react";
 
 import portrait from "@/assets/portrait.jpg";
+import { TiltCard } from "@/components/motion/TiltCard";
 import { ActionAnchor, ActionLink } from "@/components/site/Action";
 import { ResumeDownloadButton } from "@/components/site/ResumeDownloadButton";
 import { Section, SectionHeading } from "@/components/site/Section";
@@ -300,10 +301,10 @@ function FeaturedWork() {
       <div className="mt-14 space-y-8">
         {featuredProjects.map((project, i) => (
           <Reveal key={project.slug} delay={i * 0.06}>
-            <Link
+            <TiltCard
               to="/projects/$slug"
               params={{ slug: project.slug }}
-              className="surface-card lift group grid overflow-hidden md:grid-cols-[1.1fr_1fr]"
+              innerClassName="grid md:grid-cols-[1.1fr_1fr]"
             >
               <div className="overflow-hidden">
                 <img
@@ -342,7 +343,7 @@ function FeaturedWork() {
                   </span>
                 </div>
               </div>
-            </Link>
+            </TiltCard>
           </Reveal>
         ))}
       </div>
