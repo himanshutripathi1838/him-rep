@@ -30,7 +30,7 @@ export function CareerRoadmap() {
 
           {/* Thick Gradient Road Path */}
           <motion.path
-            d="M 120 100 L 520 100 C 680 100, 680 300, 280 300 C 120 300, 120 500, 520 500 C 680 500, 680 700, 280 700 C 120 700, 120 900, 520 900 L 680 900"
+            d="M 120 100 L 496 100 C 680 100, 680 300, 304 300 C 120 300, 120 500, 496 500 C 680 500, 680 700, 304 700 C 120 700, 120 900, 496 900 L 680 900"
             stroke="url(#roadGradient)"
             strokeWidth="38"
             strokeLinecap="round"
@@ -42,7 +42,7 @@ export function CareerRoadmap() {
 
           {/* Dashed White Center Line */}
           <motion.path
-            d="M 120 100 L 520 100 C 680 100, 680 300, 280 300 C 120 300, 120 500, 520 500 C 680 500, 680 700, 280 700 C 120 700, 120 900, 520 900 L 680 900"
+            d="M 120 100 L 496 100 C 680 100, 680 300, 304 300 C 120 300, 120 500, 496 500 C 680 500, 680 700, 304 700 C 120 700, 120 900, 496 900 L 680 900"
             stroke="white"
             strokeWidth="2"
             strokeDasharray="8 8"
@@ -59,9 +59,9 @@ export function CareerRoadmap() {
         {timeline.map((step, i) => {
           const Icon = icons[i] || Code;
           const isOdd = i % 2 === 0; // index 0 (2020), 2 (2022-2026), 4 (2026-Present) are on the right
-          const leftPercent = isOdd ? "65%" : "35%";
-          const textLeftPercent = isOdd ? "75%" : "auto";
-          const textRightPercent = isOdd ? "auto" : "75%";
+          const leftPercent = isOdd ? "62%" : "38%";
+          const textLeftPercent = isOdd ? "71%" : "auto";
+          const textRightPercent = isOdd ? "auto" : "71%";
           const topPercent = `${10 + i * 20}%`; // 10%, 30%, 50%, 70%, 90%
 
           return (
@@ -77,33 +77,48 @@ export function CareerRoadmap() {
                 initial={{ opacity: 0, scale: 0 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                whileHover={{ scale: 1.12, borderColor: "var(--color-accent)" }}
-                transition={{ type: "spring", stiffness: 200, damping: 15, delay: i * 0.2 }}
+                whileHover={{ 
+                  scale: 1.15, 
+                  borderColor: "rgba(56, 189, 248, 0.6)",
+                  boxShadow: "0 10px 15px -3px rgba(56, 189, 248, 0.25)"
+                }}
+                transition={{ type: "spring", stiffness: 250, damping: 15, delay: i * 0.2 }}
               >
-                <Icon className="size-6 text-foreground" />
+                <motion.div
+                  whileHover={{ rotate: 10 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <Icon className="size-6 text-foreground" />
+                </motion.div>
               </motion.div>
 
-              {/* Step Content Card */}
+              {/* Step Content Card with back-and-forth hover effect */}
               <motion.div
-                className="absolute w-[240px] pointer-events-auto p-4 rounded-xl border border-border/80 bg-background/80 backdrop-blur-sm shadow-md"
+                className="absolute w-[270px] pointer-events-auto p-5 rounded-xl border border-border/80 bg-background/80 backdrop-blur-sm shadow-md cursor-pointer"
                 style={{
                   left: textLeftPercent,
                   right: textRightPercent,
                   top: topPercent,
-                  transform: "translateY(-50%)",
                 }}
-                initial={{ opacity: 0, x: isOdd ? 40 : -40 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, x: isOdd ? 40 : -40, y: "-50%", scale: 0.95 }}
+                whileInView={{ opacity: 1, x: 0, y: "-50%", scale: 1 }}
+                whileHover={{ 
+                  x: isOdd ? 10 : -10, 
+                  y: "-50%", 
+                  scale: 1.04, 
+                  borderColor: "rgba(56, 189, 248, 0.4)",
+                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.15)"
+                }}
                 viewport={{ once: true }}
-                transition={{ type: "spring", stiffness: 100, damping: 16, delay: i * 0.2 + 0.1 }}
+                transition={{ type: "spring", stiffness: 250, damping: 18, delay: i * 0.2 + 0.1 }}
               >
-                <span className="font-mono text-xs font-semibold text-accent uppercase tracking-wider">
+                <span className="font-mono text-xs font-semibold text-accent uppercase tracking-[0.12em]">
                   {step.year}
                 </span>
-                <h4 className="mt-1 text-sm font-semibold text-foreground">
+                <h4 className="mt-1.5 text-base font-semibold text-foreground tracking-tight">
                   {step.title}
                 </h4>
-                <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
+                <p className="mt-2 text-[13px] text-muted-foreground leading-relaxed">
                   {step.body}
                 </p>
               </motion.div>
@@ -135,7 +150,7 @@ export function CareerRoadmap() {
                 <span className="font-mono text-xs font-semibold text-accent uppercase tracking-wider">
                   {step.year}
                 </span>
-                <h4 className="mt-1 text-base font-semibold text-foreground">
+                <h4 className="mt-1 text-base sm:text-lg font-semibold text-foreground">
                   {step.title}
                 </h4>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
