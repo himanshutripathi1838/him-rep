@@ -20,7 +20,7 @@ export function CareerRoadmap() {
   const activeRatio = stepRatios[currentActive];
 
   return (
-    <div className="relative w-full py-10">
+    <div className="relative w-full py-6 sm:py-10">
       {/* 1. Desktop Layout (>= md) */}
       <div className="hidden md:block relative w-full h-[1150px] max-w-4xl mx-auto overflow-hidden">
         {/* SVG Centered Wavy Path with More Curves */}
@@ -30,7 +30,7 @@ export function CareerRoadmap() {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Base Dark Line (Inactive Path with higher curve offsets) */}
+          {/* Base Dark Line (Inactive Path) */}
           <path
             d="M 400 0 C 400 40, 430 70, 440 110 C 460 190, 340 250, 360 330 C 380 410, 460 470, 440 550 C 420 630, 340 690, 360 770 C 380 850, 460 910, 440 990 C 430 1030, 400 1060, 400 1100"
             stroke="rgba(255, 255, 255, 0.08)"
@@ -147,39 +147,103 @@ export function CareerRoadmap() {
         })}
       </div>
 
-      {/* 2. Mobile Layout (< md) */}
-      <div className="md:hidden relative pl-8 border-l-2 border-slate-800 space-y-12 py-4">
-        {/* Mobile Active Path overlay */}
-        <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-cyan-400 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]" style={{ height: "92%" }} />
+      {/* 2. Mobile Layout (< md) - Sleek Zig-Zag Wavy Roadmap for Mobile */}
+      <div className="md:hidden relative w-full h-[850px] mx-auto overflow-hidden">
+        {/* SVG Winding Road for Mobile View */}
+        <svg
+          className="absolute inset-0 w-full h-full pointer-events-none"
+          viewBox="0 0 400 850"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {/* Base Dark Mobile Path */}
+          <path
+            d="M 200 0 C 200 30, 212 50, 215 85 C 225 150, 175 190, 185 255 C 195 320, 225 360, 215 425 C 205 490, 175 530, 185 595 C 195 660, 225 700, 215 765 C 210 800, 200 820, 200 850"
+            stroke="rgba(255, 255, 255, 0.08)"
+            strokeWidth="2.5"
+            fill="none"
+            strokeLinecap="round"
+          />
 
+          {/* Active Mobile Path */}
+          <motion.path
+            d="M 200 0 C 200 30, 212 50, 215 85 C 225 150, 175 190, 185 255 C 195 320, 225 360, 215 425 C 205 490, 175 530, 185 595 C 195 660, 225 700, 215 765 C 210 800, 200 820, 200 850"
+            stroke="#06b6d4"
+            strokeWidth="3"
+            fill="none"
+            strokeLinecap="round"
+            animate={{ pathLength: activeRatio }}
+            transition={{ type: "spring", stiffness: 70, damping: 16 }}
+            className="drop-shadow-[0_0_8px_rgba(6,182,212,0.85)]"
+          />
+        </svg>
+
+        {/* Milestone Circles and Cards for Mobile */}
         {timeline.map((step, i) => {
+          const isLeft = i % 2 === 0;
+          const isRightPeak = i % 2 === 0;
+          const leftPercent = isRightPeak ? "53.75%" : "46.25%";
+          const topPercent = `${10 + i * 20}%`; // 10%, 30%, 50%, 70%, 90%
+          const isSelected = i <= currentActive;
+          const isHovered = hoveredStep === i;
+
           return (
-            <motion.div
-              key={step.year}
-              className="relative"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-            >
-              {/* Step Node Circle */}
-              <div className="absolute -left-[45px] top-0 flex size-8 items-center justify-center rounded-full bg-background border-2 border-cyan-400 text-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.35)] font-mono font-bold text-xs">
-                {i + 1}
+            <div key={step.year} className="absolute inset-0 pointer-events-none">
+              {/* Step Circle */}
+              <div
+                className={`absolute flex items-center justify-center size-9 rounded-full bg-background border-2 transition-all duration-300 pointer-events-auto cursor-pointer z-20 ${
+                  isSelected
+                    ? "border-cyan-400 text-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.4)]"
+                    : "border-slate-800 text-slate-500"
+                }`}
+                style={{
+                  left: leftPercent,
+                  top: topPercent,
+                  transform: "translate(-50%, -50%)",
+                }}
+                onTouchStart={() => setHoveredStep(i)}
+                onTouchEnd={() => setHoveredStep(null)}
+                onMouseEnter={() => setHoveredStep(i)}
+                onMouseLeave={() => setHoveredStep(null)}
+              >
+                <span className="font-mono font-bold text-xs">{i + 1}</span>
               </div>
 
-              {/* Content */}
-              <div>
-                <span className="font-mono text-[10px] font-medium tracking-wider text-cyan-400/80 uppercase">
-                  {phaseLabels[i]}
-                </span>
-                <h4 className="mt-1 text-base font-semibold text-foreground">
-                  {step.title} <span className="font-mono text-xs text-muted-foreground">({step.year})</span>
-                </h4>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                  {step.body}
-                </p>
-              </div>
-            </motion.div>
+              {/* Step Card for Mobile */}
+              <motion.div
+                className={`absolute w-[150px] pointer-events-auto p-3 rounded-xl border transition-colors duration-300 bg-slate-950/85 border-slate-900/90 backdrop-blur-sm shadow-md ${
+                  isHovered ? "border-cyan-500/40" : "border-slate-900/80"
+                }`}
+                style={{
+                  left: isLeft ? "auto" : "53.5%",
+                  right: isLeft ? "53.5%" : "auto",
+                  top: topPercent,
+                  textAlign: isLeft ? "right" : "left",
+                }}
+                initial={{ opacity: 0, x: isLeft ? -20 : 20, y: "-50%", scale: 0.96 }}
+                whileInView={{ opacity: 1, x: 0, y: "-50%", scale: 1 }}
+                viewport={{ once: true }}
+                onTouchStart={() => setHoveredStep(i)}
+                onTouchEnd={() => setHoveredStep(null)}
+                onMouseEnter={() => setHoveredStep(i)}
+                onMouseLeave={() => setHoveredStep(null)}
+              >
+                <div className={`flex flex-col ${isLeft ? "items-end" : "items-start"}`}>
+                  <span className="font-mono text-[8px] font-medium tracking-[0.1em] text-cyan-400/80 uppercase">
+                    {phaseLabels[i].split(" // ")[0]}
+                  </span>
+                  <h4 className="mt-0.5 text-xs font-semibold text-foreground leading-tight tracking-tight">
+                    {step.title}
+                  </h4>
+                  <span className="font-mono text-[9px] text-muted-foreground mt-0.5">
+                    {step.year}
+                  </span>
+                  <p className="mt-1 text-[10px] leading-snug text-muted-foreground">
+                    {step.body}
+                  </p>
+                </div>
+              </motion.div>
+            </div>
           );
         })}
       </div>
