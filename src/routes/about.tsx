@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { motion } from "framer-motion";
 import { Section, SectionHeading } from "@/components/site/Section";
 import { Reveal } from "@/components/motion/Reveal";
 import { CareerRoadmap } from "@/components/site/CareerRoadmap";
@@ -27,26 +28,59 @@ function About() {
   return (
     <>
       <Section className="pb-10">
-        <Reveal>
-          <p className="mono-label">About</p>
-          <h1 className="mt-5 max-w-3xl text-4xl font-semibold text-gradient md:text-6xl">
-            I like the part of engineering that happens after the demo works.
-          </h1>
-        </Reveal>
-        <Reveal delay={0.08}>
-          <div className="mt-10 grid max-w-4xl gap-6 text-base leading-relaxed text-muted-foreground md:grid-cols-2 md:text-lg">
-            <p>
-              I started writing code because I wanted to understand why things break. That's still
-              the centre of how I work: read the constraint, model the data, then write the smallest
-              system that survives real usage. Frameworks come last.
+        <div className="relative">
+          <Reveal>
+            <p className="mono-label flex items-center gap-2">
+              <span className="size-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              About // System Profile
             </p>
-            <p>
-              Since then I've shipped a two-sided marketplace with an auditable wallet, an AI
-              document workspace with per-page extraction, and a computer vision pipeline whose
-              accuracy numbers I can actually defend. {site.intro}
-            </p>
+            <h1 className="mt-5 max-w-4xl text-4xl font-semibold leading-[1.1] text-gradient sm:text-5xl md:text-6xl tracking-tight">
+              I like the part of engineering that happens after the demo works.
+            </h1>
+          </Reveal>
+          
+          <div className="mt-12 grid max-w-4xl gap-6 md:grid-cols-2">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ type: "spring", stiffness: 100, damping: 15, delay: 0.1 }}
+              whileHover={{ 
+                y: -6, 
+                borderColor: "rgba(6, 182, 212, 0.3)", 
+                boxShadow: "0 20px 30px -10px rgba(0, 0, 0, 0.4)" 
+              }}
+              className="relative p-7 rounded-2xl border border-white/5 bg-slate-950/45 backdrop-blur-md transition-colors duration-500 hover:bg-slate-950/70"
+            >
+              <div className="absolute top-4 right-4 size-1.5 rounded-full bg-cyan-500/50" />
+              <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
+                I started writing code because I wanted to understand why things break. That's still
+                the centre of how I work: read the constraint, model the data, then write the smallest
+                system that survives real usage. Frameworks come last.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ type: "spring", stiffness: 100, damping: 15, delay: 0.25 }}
+              whileHover={{ 
+                y: -6, 
+                borderColor: "rgba(6, 182, 212, 0.3)", 
+                boxShadow: "0 20px 30px -10px rgba(0, 0, 0, 0.4)" 
+              }}
+              className="relative p-7 rounded-2xl border border-white/5 bg-slate-950/45 backdrop-blur-md transition-colors duration-500 hover:bg-slate-950/70"
+            >
+              <div className="absolute top-4 right-4 size-1.5 rounded-full bg-cyan-500/50" />
+              <p className="text-base leading-relaxed text-muted-foreground md:text-lg">
+                Since then I've shipped a two-sided marketplace with an auditable wallet, an AI
+                document workspace with per-page extraction, and a computer vision pipeline whose
+                accuracy numbers I can actually defend. {site.intro}
+              </p>
+            </motion.div>
           </div>
-        </Reveal>
+        </div>
       </Section>
 
       <Section className="border-y border-border bg-surface/20">
