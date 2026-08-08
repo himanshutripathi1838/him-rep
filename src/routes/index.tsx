@@ -37,7 +37,6 @@ export const Route = createFileRoute("/")({
 function Home() {
   return (
     <>
-      <DigitalSerenity />
       <Hero />
       <Positioning />
       <CurrentWork />
