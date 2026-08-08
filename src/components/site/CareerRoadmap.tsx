@@ -23,39 +23,45 @@ export function CareerRoadmap() {
     <div className="relative w-full py-10">
       {/* 1. Desktop Layout (>= md) */}
       <div className="hidden md:block relative w-full h-[1150px] max-w-4xl mx-auto overflow-hidden">
-        {/* SVG Centered Wavy Path */}
+        {/* SVG Centered Wavy Path with More Curves */}
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none"
           viewBox="0 0 800 1100"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Base Dark Line (Inactive Path) */}
+          {/* Base Dark Line (Inactive Path with higher curve offsets) */}
           <path
-            d="M 400 0 C 406 100, 394 230, 400 330 C 406 430, 394 550, 400 550 C 406 550, 394 670, 400 770 C 406 870, 394 990, 400 990 L 400 1100"
+            d="M 400 0 C 400 40, 430 70, 440 110 C 460 190, 340 250, 360 330 C 380 410, 460 470, 440 550 C 420 630, 340 690, 360 770 C 380 850, 460 910, 440 990 C 430 1030, 400 1060, 400 1100"
             stroke="rgba(255, 255, 255, 0.08)"
-            strokeWidth="3"
+            strokeWidth="3.5"
             fill="none"
             strokeLinecap="round"
           />
 
           {/* Active Glowing Cyan Line (Grows based on active step) */}
           <motion.path
-            d="M 400 0 C 406 100, 394 230, 400 330 C 406 430, 394 550, 400 550 C 406 550, 394 670, 400 770 C 406 870, 394 990, 400 990 L 400 1100"
+            d="M 400 0 C 400 40, 430 70, 440 110 C 460 190, 340 250, 360 330 C 380 410, 460 470, 440 550 C 420 630, 340 690, 360 770 C 380 850, 460 910, 440 990 C 430 1030, 400 1060, 400 1100"
             stroke="#06b6d4" // cyan-500
-            strokeWidth="3.5"
+            strokeWidth="4"
             fill="none"
             strokeLinecap="round"
             animate={{ pathLength: activeRatio }}
             transition={{ type: "spring", stiffness: 70, damping: 16 }}
-            className="drop-shadow-[0_0_10px_rgba(6,182,212,0.85)]"
+            className="drop-shadow-[0_0_12px_rgba(6,182,212,0.9)]"
           />
         </svg>
 
         {/* Milestone Circles and Cards */}
         {timeline.map((step, i) => {
           const isLeft = i % 2 === 0; // alternating: index 0 (2020), 2 (2022-26), 4 (Present) on left
+          const isRightPeak = i % 2 === 0; // peaks are on right for 0, 2, 4 (X = 440 / 55%)
+          const leftPercent = isRightPeak ? "55%" : "45%";
+          
+          const textLeftPercent = isLeft ? "auto" : "52%";
+          const textRightPercent = isLeft ? "52%" : "auto";
           const topPercent = `${10 + i * 20}%`; // 10%, 30%, 50%, 70%, 90%
+          
           const isSelected = i <= currentActive;
           const isHovered = hoveredStep === i;
 
@@ -65,11 +71,11 @@ export function CareerRoadmap() {
               <motion.div
                 className={`absolute flex items-center justify-center size-12 rounded-full bg-background border-2 transition-all duration-300 pointer-events-auto cursor-pointer z-20 ${
                   isSelected
-                    ? "border-cyan-400 text-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.45)]"
+                    ? "border-cyan-400 text-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.5)]"
                     : "border-slate-800 text-slate-500"
                 }`}
                 style={{
-                  left: "50%",
+                  left: leftPercent,
                   top: topPercent,
                   transform: "translate(-50%, -50%)",
                 }}
@@ -84,14 +90,14 @@ export function CareerRoadmap() {
                 <span className="font-mono font-bold text-sm">{i + 1}</span>
               </motion.div>
 
-              {/* Step Card (hovering triggers horizontal back-and-forth movement) */}
+              {/* Step Card */}
               <motion.div
                 className={`absolute w-[290px] pointer-events-auto p-5 rounded-2xl border transition-colors duration-300 bg-slate-950/75 border-slate-900/90 backdrop-blur-md shadow-lg cursor-pointer ${
                   isHovered ? "border-cyan-500/40" : "border-slate-900/80"
                 }`}
                 style={{
-                  left: isLeft ? "auto" : "56%",
-                  right: isLeft ? "56%" : "auto",
+                  left: textLeftPercent,
+                  right: textRightPercent,
                   top: topPercent,
                   textAlign: isLeft ? "right" : "left",
                 }}
