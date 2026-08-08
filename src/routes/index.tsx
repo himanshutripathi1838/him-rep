@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Download, Mail } from "lucide-react";
 
 import portrait from "@/assets/portrait.jpg";
+import DigitalSerenity from "@/components/ui/digital-serenity-animated-landing-page";
 import { TiltCard } from "@/components/motion/TiltCard";
 import { ActionAnchor, ActionLink } from "@/components/site/Action";
 import { ResumeDownloadButton } from "@/components/site/ResumeDownloadButton";
@@ -36,6 +37,7 @@ export const Route = createFileRoute("/")({
 function Home() {
   return (
     <>
+      <DigitalSerenity />
       <Hero />
       <Positioning />
       <CurrentWork />
