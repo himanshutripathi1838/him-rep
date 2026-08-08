@@ -32,29 +32,29 @@ export const navLinks = [
 
 export const timeline = [
   {
-    year: "2022",
-    title: "First lines of production code",
-    body: "Started with C++ and Python fundamentals, then moved into web engineering — learning how systems actually fail before learning how to scale them.",
+    year: "2020",
+    title: "Class X (Secondary Education)",
+    body: "Completed Secondary School Certificate with 81.25%, laying the analytical foundations for engineering.",
   },
   {
-    year: "2023",
-    title: "Engineering foundations",
-    body: "Data structures, networking and databases in depth. Built REST services with Node and FastAPI, and learned to design schemas before writing endpoints.",
+    year: "2022",
+    title: "Class XII (Senior Secondary Education)",
+    body: "Completed Senior Secondary School Certificate (Physics, Chemistry, Math) with 75.2%, cementing mathematical foundations.",
+  },
+  {
+    year: "2022 — 2026",
+    title: "B.Tech in Computer Science Engineering",
+    body: "Admitted to Sagar Institute of Science & Technology, Bhopal. Covered core computer science, software engineering, databases, and algorithms (CGPA: 7.53).",
   },
   {
     year: "2024",
-    title: "Shipping real products",
-    body: "Designed and shipped Shiftlyin, Omni Docs and Career Guidance — multi-role auth, wallets, file pipelines and dashboards used by real users.",
+    title: "Shipping Production Software",
+    body: "Designed and built full-stack applications like Shiftlyin, Omni Docs, and a Career Guidance platform, handling database schemas and authentication flows.",
   },
   {
-    year: "2025",
-    title: "AI/ML internship",
-    body: "Joined Prudent Systems as an AI/ML Intern. Owned a railway pole detection pipeline end to end: dataset curation, YOLOv8 training, evaluation and inference tooling.",
-  },
-  {
-    year: "Present",
-    title: "Systems + AI",
-    body: "Focused on the intersection of solid backend architecture and applied machine learning — measurable accuracy, predictable latency, maintainable code.",
+    year: "2026 — Present",
+    title: "AI/ML Intern at Prudent Systems",
+    body: "Joined Prudent Systems to engineer computer vision models. Built and trained a YOLOv8 railway pole detection system with 90% accuracy.",
   },
 ];
 

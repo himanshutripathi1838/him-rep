@@ -50,7 +50,7 @@ function About() {
 
       <Section className="border-y border-border bg-surface/20">
         <SectionHeading
-          eyebrow="Timeline"
+          eyebrow="Career Path"
           title="From fundamentals to shipped systems."
           description="Each step here changed how I build, not just what I know."
         />
